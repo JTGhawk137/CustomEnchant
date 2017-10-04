@@ -1,0 +1,9 @@
+name: CustomEnchant
+main: me.jtghawk137.ce.CustomEnchant
+author: JTGhawk137
+description: Plugin for custom enchantments in Minecraft
+version: 1.0.0
+commands:
+    give:
+        description: Test command
+        usage: /<command>

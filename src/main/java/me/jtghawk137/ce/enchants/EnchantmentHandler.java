@@ -13,7 +13,6 @@ public class EnchantmentHandler
 
     private static List<Enchantment> enchantments = Lists.newArrayList();
     private PoisonEnchantment poison;
-    private CustomEnchant instance = CustomEnchant.getInstance();
 
     public void registerEnchantments()
     {
@@ -59,7 +58,7 @@ public class EnchantmentHandler
 
     public void registerEvents()
     {
-        instance.getServer().getPluginManager().registerEvents(poison, instance);
+        CustomEnchant.getInstance().getServer().getPluginManager().registerEvents(poison, CustomEnchant.getInstance());
     }
 
     public static List<Enchantment> getEnchantments()

@@ -1,5 +1,6 @@
 package me.jtghawk137.ce;
 
+import me.jtghawk137.ce.commands.GiveCommand;
 import me.jtghawk137.ce.config.FileManager;
 import me.jtghawk137.ce.enchants.EnchantmentHandler;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,16 +8,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CustomEnchant extends JavaPlugin
 {
 
-    private EnchantmentHandler handler = new EnchantmentHandler();
-    private FileManager files = new FileManager();
     private static CustomEnchant instance;
+    private EnchantmentHandler handler = new EnchantmentHandler();
 
     @Override
     public void onEnable()
     {
         instance = this;
-        files.loadConfigs();
+        FileManager.loadConfigs();
         handler.registerEnchantments();
+        registerCommands();
+        handler.registerEvents();
     }
 
     @Override
@@ -24,6 +26,11 @@ public class CustomEnchant extends JavaPlugin
     {
         instance = null;
         handler.handleShutdown();
+    }
+
+    public void registerCommands()
+    {
+        this.getCommand("give").setExecutor(new GiveCommand());
     }
 
     public static CustomEnchant getInstance()
