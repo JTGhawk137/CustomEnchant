@@ -1,23 +1,33 @@
 package me.jtghawk137.ce.enchants;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import me.jtghawk137.ce.CustomEnchant;
 import org.bukkit.enchantments.Enchantment;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 public class EnchantmentHandler
 {
 
-    private static List<Enchantment> enchantments = Lists.newArrayList();
+    private static Map<String, Enchantment> enchantments = Maps.newHashMap();
     private PoisonEnchantment poison;
+
+    public static Map<String, Enchantment> getEnchantments()
+    {
+        return enchantments;
+    }
+
+    public static Enchantment getEnchantmentByName(String name)
+    {
+        return enchantments.get(name);
+    }
 
     public void registerEnchantments()
     {
         poison = new PoisonEnchantment(101);
-        enchantments.add(poison);
+        enchantments.put("poison", poison);
 
         try
         {
@@ -44,7 +54,7 @@ public class EnchantmentHandler
             HashMap<Integer, Enchantment> byId = (HashMap<Integer, Enchantment>) byIdField.get(null);
             HashMap<Integer, Enchantment> byName = (HashMap<Integer, Enchantment>) byNameField.get(null);
 
-            for (Enchantment e : enchantments)
+            for (Enchantment e : enchantments.values())
             {
                 if (byId.containsKey(e.getId()))
                     byId.remove(e.getId());
@@ -59,10 +69,5 @@ public class EnchantmentHandler
     public void registerEvents()
     {
         CustomEnchant.getInstance().getServer().getPluginManager().registerEvents(poison, CustomEnchant.getInstance());
-    }
-
-    public static List<Enchantment> getEnchantments()
-    {
-        return enchantments;
     }
 }

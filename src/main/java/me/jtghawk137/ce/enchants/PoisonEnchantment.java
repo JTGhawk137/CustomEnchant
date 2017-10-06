@@ -14,6 +14,11 @@ import org.bukkit.potion.PotionEffectType;
 public class PoisonEnchantment extends Enchantment implements Listener
 {
 
+    public PoisonEnchantment(int id)
+    {
+        super(id);
+    }
+
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e)
     {
@@ -49,11 +54,6 @@ public class PoisonEnchantment extends Enchantment implements Listener
                 }
             }
         }
-    }
-
-    public PoisonEnchantment(int id)
-    {
-        super(id);
     }
 
     @Override

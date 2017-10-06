@@ -1,7 +1,6 @@
 package me.jtghawk137.ce;
 
-import me.jtghawk137.ce.commands.GiveCommand;
-import me.jtghawk137.ce.config.FileManager;
+import me.jtghawk137.ce.commands.CECommand;
 import me.jtghawk137.ce.enchants.EnchantmentHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,11 +10,15 @@ public class CustomEnchant extends JavaPlugin
     private static CustomEnchant instance;
     private EnchantmentHandler handler = new EnchantmentHandler();
 
+    public static CustomEnchant getInstance()
+    {
+        return instance;
+    }
+
     @Override
     public void onEnable()
     {
         instance = this;
-        FileManager.loadConfigs();
         handler.registerEnchantments();
         registerCommands();
         handler.registerEvents();
@@ -30,11 +33,6 @@ public class CustomEnchant extends JavaPlugin
 
     public void registerCommands()
     {
-        this.getCommand("give").setExecutor(new GiveCommand());
-    }
-
-    public static CustomEnchant getInstance()
-    {
-        return instance;
+        this.getCommand("ce").setExecutor(new CECommand());
     }
 }

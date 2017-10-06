@@ -1,7 +1,5 @@
 package me.jtghawk137.ce.enchants;
 
-import me.jtghawk137.ce.config.FileManager;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,22 +15,41 @@ public class ItemUtils
 
     public static ItemStack customEnchantItem(Material material, int amount, Enchantment enchantment, int level, Player player)
     {
-        if (level > enchantment.getMaxLevel())
-            throw new ArrayIndexOutOfBoundsException();
-        ItemStack stack = new ItemStack(material, amount);
-        ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(FileManager.get("settings.yml").get("itemName").toString().replace("&", "§") + " " + WordUtils.capitalize(material.name().replace("_", " ").toLowerCase()));
-        meta.setLore(Arrays.asList("§7" + enchantment.getName() + " " + numerals[level - 1]));
-        if (showUser())
-            meta.setLore(Arrays.asList(("§7" + enchantment.getName() + " " + numerals[level - 1]), FileManager.get("settings.yml").getString("originalUserLore").replace("&", "§") + player.getName()));
-        stack.setItemMeta(meta);
-        stack.addUnsafeEnchantment(enchantment, level);
-        stack.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 3);
-        return stack;
+        if (material.equals(Material.DIAMOND_SWORD))
+        {
+            if (level > enchantment.getMaxLevel())
+                throw new ArrayIndexOutOfBoundsException();
+            ItemStack stack = new ItemStack(material, amount);
+            ItemMeta meta = stack.getItemMeta();
+            meta.setDisplayName("§bRoyal Blade");
+            meta.setLore(Arrays.asList("§c" + enchantment.getName() + " " + numerals[level - 1], "§cObtained by " + player.getName(), "§9Royal Item"));
+            stack.setItemMeta(meta);
+            stack.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 6);
+            stack.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
+            stack.addUnsafeEnchantment(enchantment, level);
+            return stack;
+        } else if (material.equals(Material.DIAMOND_PICKAXE))
+        {
+            ItemStack stack = new ItemStack(material, amount);
+            ItemMeta meta = stack.getItemMeta();
+            meta.setDisplayName("§bRoyal Pickaxe");
+            meta.setLore(Arrays.asList("§9Royal Item"));
+            stack.setItemMeta(meta);
+            stack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
+            stack.addUnsafeEnchantment(Enchantment.DURABILITY, 3);
+            return stack;
+        } else if (material.equals(Material.DIAMOND_SPADE))
+        {
+            ItemStack stack = new ItemStack(material, amount);
+            ItemMeta meta = stack.getItemMeta();
+            meta.setDisplayName("§bRoyal Shovel");
+            meta.setLore(Arrays.asList("§9Royal Item"));
+            stack.setItemMeta(meta);
+            stack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
+            stack.addUnsafeEnchantment(Enchantment.DURABILITY, 3);
+            return stack;
+        }
+        return null;
     }
 
-    private static boolean showUser()
-    {
-        return FileManager.get("settings.yml").getBoolean("showOriginalUser");
-    }
 }

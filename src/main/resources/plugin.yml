@@ -4,6 +4,7 @@ author: JTGhawk137
 description: Plugin for custom enchantments in Minecraft
 version: 1.0.0
 commands:
-    give:
-        description: Test command
+    ce:
+        description: Custom enchants command
         usage: /<command>
+        Permission: ce.give
