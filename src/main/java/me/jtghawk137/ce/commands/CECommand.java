@@ -15,63 +15,58 @@ public class CECommand implements CommandExecutor
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args)
     {
-        if (!commandSender.hasPermission("ce.give"))
+        try
         {
-            commandSender.sendMessage("§cYou do not have permission to use this command");
-            return true;
-        }
-        if (args.length != 4 && args.length != 2)
-        {
-            commandSender.sendMessage("§6Usage: §7/ce <player> <item> <enchantment> <level>");
-            return true;
-        }
-        Player player = null;
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            if (args[0].equalsIgnoreCase(p.getName()))
+            if (!commandSender.hasPermission("nsp.headadmin"))
             {
-                player = p;
-                break;
-            } else
-            {
-                commandSender.sendMessage("§cPlayer not found!");
+                commandSender.sendMessage("§cYou do not have permission to use this command");
                 return true;
             }
-        }
-        if (!args[1].matches("(?i)Sword|Pickaxe|Shovel"))
-        {
-            commandSender.sendMessage("§cItem name is invalid, please use Sword, Pickaxe, or Shovel!");
+            if (args.length != 4 && args.length != 2)
+            {
+                commandSender.sendMessage("§6Usage: §7/ce <player> <item> <enchantment> <level>");
+                return true;
+            }
+            Player player = Bukkit.getPlayer(args[0]);
+            if (!args[1].matches("(?i)Sword|Pickaxe|Shovel"))
+            {
+                commandSender.sendMessage("§cItem name is invalid, please use Sword, Pickaxe, or Shovel!");
+                return true;
+            }
+            Material material = null;
+            if (args[1].equalsIgnoreCase("Sword"))
+                material = Material.DIAMOND_SWORD;
+            if (args[1].equalsIgnoreCase("Pickaxe"))
+            {
+                material = Material.DIAMOND_PICKAXE;
+                player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, null, 0, player));
+                return true;
+            }
+            if (args[1].equalsIgnoreCase("Shovel"))
+            {
+                material = Material.DIAMOND_SPADE;
+                player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, null, 0, player));
+                return true;
+            }
+            Enchantment enchantment;
+            if (EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase()) == null)
+            {
+                commandSender.sendMessage("§cEnchantment name is invalid! (Poison, Healer, Lighting, Slowness, Blindness");
+                return true;
+            }
+            enchantment = EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase());
+            int level = Integer.parseInt(args[3]);
+            if (level > enchantment.getMaxLevel() || level < enchantment.getStartLevel())
+            {
+                commandSender.sendMessage("§cThe level is too high or low, please use an number between 1-3");
+                return true;
+            }
+            player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, enchantment, level, player));
             return true;
-        }
-        Material material = null;
-        if (args[1].equalsIgnoreCase("Sword"))
-            material = Material.DIAMOND_SWORD;
-        if (args[1].equalsIgnoreCase("Pickaxe"))
+        } catch (NullPointerException e)
         {
-            material = Material.DIAMOND_PICKAXE;
-            player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, null, 0, player));
-            return true;
+            commandSender.sendMessage("§cPlayer not found!");
         }
-        if (args[1].equalsIgnoreCase("Shovel"))
-        {
-            material = Material.DIAMOND_SPADE;
-            player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, null, 0, player));
-            return true;
-        }
-        Enchantment enchantment;
-        if (EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase()) == null)
-        {
-            commandSender.sendMessage("§cEnchantment name is invalid! (Poison, Healer, Lighting, Slowness, Blindness");
-            return true;
-        }
-        enchantment = EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase());
-        int level = Integer.parseInt(args[3]);
-        if (level > enchantment.getMaxLevel() || level < enchantment.getStartLevel())
-        {
-            commandSender.sendMessage("§cThe level is too high or low, please use an number between 1-3");
-            return true;
-        }
-        player.getInventory().addItem(ItemUtils.customEnchantItem(material, 1, enchantment, level, player));
         return true;
     }
 }

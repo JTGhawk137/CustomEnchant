@@ -25,7 +25,7 @@ public class LightingEnchantment extends Enchantment implements Listener
             return;
         LivingEntity damaged = (LivingEntity) e.getEntity();
         Player player = (Player) e.getDamager();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        ItemStack item = player.getInventory().getItemInHand();
         if (item.getEnchantments().containsKey(EnchantmentHandler.getEnchantmentByName(getName().toLowerCase())))
         {
             double rand = Math.random();

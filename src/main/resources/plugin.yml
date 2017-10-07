@@ -7,4 +7,4 @@ commands:
     ce:
         description: Custom enchants command
         usage: /<command>
-        Permission: ce.give
+        Permission: nsp.headadmin
