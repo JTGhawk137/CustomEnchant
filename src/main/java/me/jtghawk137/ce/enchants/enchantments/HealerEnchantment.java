@@ -1,5 +1,6 @@
-package me.jtghawk137.ce.enchants;
+package me.jtghawk137.ce.enchants.enchantments;
 
+import me.jtghawk137.ce.enchants.EnchantmentHandler;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.LivingEntity;
@@ -8,13 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-public class PoisonEnchantment extends Enchantment implements Listener
+public class HealerEnchantment extends Enchantment implements Listener
 {
 
-    public PoisonEnchantment(int id)
+    public HealerEnchantment(int id)
     {
         super(id);
     }
@@ -27,29 +26,31 @@ public class PoisonEnchantment extends Enchantment implements Listener
         LivingEntity damaged = (LivingEntity) e.getEntity();
         Player player = (Player) e.getDamager();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (item.containsEnchantment(this))
+        if (item.getEnchantments().containsKey(EnchantmentHandler.getEnchantmentByName(getName())))
         {
             double rand = Math.random();
             if (item.getEnchantments().get(this) == 1)
             {
                 if (rand <= .01)
                 {
-                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 1));
+                    player.setHealth(player.getHealth() + 8);
+                    damaged.sendMessage("§cYou've been struck by " + player.getName() + "'s Royal Sword");
                     return;
                 }
             } else if (item.getEnchantments().get(this) == 2)
             {
                 if (rand <= .02)
                 {
-                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 1));
+                    player.setHealth(player.getHealth() + 8);
+                    damaged.sendMessage("§cYou've been struck by " + player.getName() + "'s Royal Sword");
                     return;
                 }
             } else
             {
-                System.out.println(rand);
                 if (rand <= .03)
                 {
-                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 1));
+                    player.setHealth(player.getHealth() + 8);
+                    damaged.sendMessage("§cYou've been struck by " + player.getName() + "'s Royal Sword");
                     return;
                 }
             }
@@ -59,7 +60,7 @@ public class PoisonEnchantment extends Enchantment implements Listener
     @Override
     public String getName()
     {
-        return "Poison";
+        return "Healer";
     }
 
     @Override

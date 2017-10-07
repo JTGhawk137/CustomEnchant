@@ -59,9 +59,9 @@ public class CECommand implements CommandExecutor
             return true;
         }
         Enchantment enchantment;
-        if (!args[2].matches("(?i)Poison|Pickaxe|Shovel"))
+        if (EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase()) == null)
         {
-            commandSender.sendMessage("§cEnchantment name is invalid, please use Poison!");
+            commandSender.sendMessage("§cEnchantment name is invalid! (Poison, Healer, Lighting, Slowness, Blindness");
             return true;
         }
         enchantment = EnchantmentHandler.getEnchantmentByName(args[2].toLowerCase());
